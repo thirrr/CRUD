@@ -8,47 +8,45 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.EditText
 import com.arhakim.bp2crud.Model.Person
-import com.arhakim.bp2crud.R
-import kotlinx.android.synthetic.main.row_layout.view.*
+import com.arhakim.bp2crud.databinding.RowLayoutBinding // ← ini view binding-nya
 
-class ListPersonAdapter(internal var activity: Activity,
-                        internal var lstPerson: List<Person>,
-                        internal var edt_id: EditText,
-                        internal var edt_name: EditText,
-                        internal var edt_email: EditText):BaseAdapter() {
+class ListPersonAdapter(
+    internal var activity: Activity,
+    internal var lstPerson: List<Person>,
+    internal var edt_id: EditText,
+    internal var edt_name: EditText,
+    internal var edt_email: EditText
+) : BaseAdapter() {
 
-    internal var inflater:LayoutInflater
+    internal var inflater: LayoutInflater
 
     init {
         inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
 
-    override fun getCount(): Int {
-        return  lstPerson.size
-    }
+    override fun getCount(): Int = lstPerson.size
 
-    override fun getItem(position: Int): Any {
-        return lstPerson[position]
-    }
+    override fun getItem(position: Int): Any = lstPerson[position]
 
-    override fun getItemId(position: Int): Long {
-        return lstPerson[position].id.toLong()
-    }
+    override fun getItemId(position: Int): Long = lstPerson[position].id.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val rowView:View
-        rowView = inflater.inflate(R.layout.row_layout, null)
+        // Inflate layout pakai ViewBinding
+        val binding = RowLayoutBinding.inflate(inflater, parent, false)
 
-        rowView.txt_row_id.text = lstPerson[position].id.toString()
-        rowView.txt_name.text = lstPerson[position].name.toString()
-        rowView.txt_email.text = lstPerson[position].email.toString()
+        // Set data
+        val person = lstPerson[position]
+        binding.txtRowId.text = person.id.toString()
+        binding.txtName.text = person.name
+        binding.txtEmail.text = person.email
 
-        //Event
-        rowView.setOnClickListener {
-            edt_id.setText(rowView.txt_row_id.text.toString())
-            edt_name.setText(rowView.txt_name.text.toString())
-            edt_email.setText(rowView.txt_email.text.toString())
+        // OnClick - isi editText
+        binding.root.setOnClickListener {
+            edt_id.setText(binding.txtRowId.text.toString())
+            edt_name.setText(binding.txtName.text.toString())
+            edt_email.setText(binding.txtEmail.text.toString())
         }
-        return rowView
+
+        return binding.root
     }
 }

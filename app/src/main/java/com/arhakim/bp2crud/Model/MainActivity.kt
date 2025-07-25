@@ -1,55 +1,53 @@
 package com.arhakim.bp2crud.Model
 
-
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.arhakim.bp2crud.Adapter.ListPersonAdapter
-import com.arhakim.bp2crud .DBHelper.DBHelper
+import com.arhakim.bp2crud.DBHelper.DBHelper
 import com.arhakim.bp2crud.Model.Person
-import com.arhakim.bp2crud.R
-import kotlinx.android.synthetic.main.activity_main.*
+import com.arhakim.bp2crud.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var db:DBHelper
-    internal var lstPersons:List<Person> = ArrayList<Person>()
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var db: DBHelper
+    private var lstPersons: List<Person> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         db = DBHelper(this)
 
         refreshData()
 
-        btn_add.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             val person = Person(
-                    Integer.parseInt(edt_id.text.toString()),
-                    edt_name.text.toString(),
-                    edt_email.text.toString()
+                binding.edtId.text.toString().toInt(),
+                binding.edtName.text.toString(),
+                binding.edtEmail.text.toString()
             )
             db.addPerson(person)
             refreshData()
         }
 
-        btn_update.setOnClickListener {
+        binding.btnUpdate.setOnClickListener {
             val person = Person(
-                    Integer.parseInt(edt_id.text.toString()),
-                    edt_name.text.toString(),
-                    edt_email.text.toString()
+                binding.edtId.text.toString().toInt(),
+                binding.edtName.text.toString(),
+                binding.edtEmail.text.toString()
             )
             db.updatePerson(person)
             refreshData()
         }
 
-        btn_delete.setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             val person = Person(
-                    Integer.parseInt(edt_id.text.toString()),
-                    edt_name.text.toString(),
-                    edt_email.text.toString()
+                binding.edtId.text.toString().toInt(),
+                binding.edtName.text.toString(),
+                binding.edtEmail.text.toString()
             )
-
             db.deletePerson(person)
             refreshData()
         }
@@ -57,7 +55,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshData() {
         lstPersons = db.allPerson
-        val adapter = ListPersonAdapter(this@MainActivity, lstPersons, edt_id, edt_name, edt_email)
-        list_persons.adapter = adapter
+        val adapter = ListPersonAdapter(
+            this@MainActivity,
+            lstPersons,
+            binding.edtId,
+            binding.edtName,
+            binding.edtEmail
+        )
+        binding.listPersons.adapter = adapter
     }
 }
