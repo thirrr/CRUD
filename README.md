@@ -1,8 +1,14 @@
-# Kotlin-Simple-CRUD-
-Android Studio Simple CRUD
+#  – Mahesa Fathir
 
-1. Download project
-2. Extract file into folder
-3. Open with Android Studio 
-4. Update kotlin
-5. Run project 
+
+
+## 🔧 Fitur yang Ditambahkan / Diubah
+- Ubah tampilan UI dan struktur folder
+- Tambah validasi dan fitur baru lainnya
+- Refactoring dan optimasi kode
+
+---
+
+## 📄 Lisensi
+Proyek ini tetap berlisensi sesuai original (misalnya MIT).  
+© 2025 Mahesa Fathir 
